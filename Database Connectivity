@@ -1,0 +1,100 @@
+C-.Net-Developer
+================
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Data.SqlClient;
+
+
+
+
+namespace adoexample
+{
+    public partial class Form1 : Form
+    {
+        SqlConnection conn;
+        SqlDataAdapter dataadop;
+        DataSet ds= new DataSet();
+        SqlCommand cmd;
+   
+
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                conn = new SqlConnection("Your Connection Name");
+                
+                dataadop = new SqlDataAdapter("select * from Customer_Details", conn);
+                conn.Open();
+                dataadop.Fill(ds);
+            }
+            catch (Exception ex) {
+                MessageBox.Show("Error" + ex);
+            }
+       
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            textBox1.Clear();
+            textBox2.Clear();
+            textBox3.Clear();
+            textBox4.Clear();
+            textBox5.Clear();
+            textBox6.Clear();
+            maskedTextBox1.Clear();
+            maskedTextBox2.Clear();
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            try{
+          cmd= new SqlCommand("insert into Customer_Details (Name,Age,Address,Email_ID,Problem,Status,Date,Estimated Date ) values ( @Name,@Age,@Email_ID,@Problem,@Status,@Date,@Estimated_Date)",conn);
+          cmd.Parameters.AddWithValue("@Name", textBox1.Text);
+          cmd.Parameters.AddWithValue("@Age", textBox2.Text);
+          cmd.Parameters.AddWithValue("@Address", textBox3.Text);
+          cmd.Parameters.AddWithValue("@Email_ID", textBox5.Text);
+          cmd.Parameters.AddWithValue("@Problem", textBox4.Text);
+          cmd.Parameters.AddWithValue("@Status", textBox6.Text);
+          cmd.Parameters.AddWithValue("@Date", maskedTextBox1.Text);
+          cmd.Parameters.AddWithValue("@Estimated_Date", maskedTextBox2.Text);
+                
+                cmd.ExecuteNonQuery();
+   
+        }
+            catch(Exception ex){
+            MessageBox.Show("Error " + ex);
+            }
+        }
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+    
+    
+    }
+
+}
+
